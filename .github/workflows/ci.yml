@@ -8,11 +8,11 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
           fetch-depth: 0
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: tools
           key: mise-tools-${{ hashFiles('.mise.toml') }}
@@ -21,11 +21,11 @@ jobs:
         run: |
           echo "datachannel=$(git rev-parse HEAD:packages/libdatachannel)" >> "$GITHUB_OUTPUT"
           echo "svtav1=$(git rev-parse HEAD:packages/svt-av1)" >> "$GITHUB_OUTPUT"
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: .zig-cache/cmake
           key: libdatachannel-${{ runner.os }}-${{ steps.libs.outputs.datachannel }}-${{ hashFiles('.mise.toml') }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: packages/svt-av1/Bin
           key: svtav1-${{ runner.os }}-${{ steps.libs.outputs.svtav1 }}-${{ hashFiles('.mise.toml') }}
