@@ -1,23 +1,18 @@
 #!/usr/bin/env bash
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
-TOOLS_ROOT=$(git -C "$SCRIPT_DIR" worktree list 2>/dev/null | head -1 | awk '{print $1}')
-export MISE_DATA_DIR="${TOOLS_ROOT:-$SCRIPT_DIR}/tools"
-export MISE_INSTALL_PATH="$MISE_DATA_DIR/mise"
-export MISE_INSTALL_HELP=0
-export MISE_GLOBAL_CONFIG_FILE=/dev/null
-export ZIG_GLOBAL_CACHE_DIR="$MISE_DATA_DIR/zig-cache"
-export PATH="$MISE_DATA_DIR:$PATH"
 
-http() { curl --progress-bar "$@" || wget -qO- "$@"; }
+if ! command -v mise > /dev/null; then
+  echo "mise is required: https://mise.jdx.dev/getting-started.html" >&2
+  exit 1
+fi
 
 # Ensure submodule URLs match .gitmodules (fixes stale local cache after URL changes)
 git -C "$SCRIPT_DIR" submodule sync --quiet
 
-[[ -f "$MISE_INSTALL_PATH" ]] || http https://mise.run | sh
 mise trust --quiet "$SCRIPT_DIR"
-mise install
-eval "$(mise env)"
+mise -C "$SCRIPT_DIR" install || exit $?
+eval "$(mise -C "$SCRIPT_DIR" env)"
 
 # If this script is being executed (not sourced) and has an argument, run it with bun
 [[ "${BASH_SOURCE[0]}" == "${0}" && -n "${1}" ]] && exec bun "$@"

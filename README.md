@@ -222,7 +222,7 @@ The daemon probes available encoders at startup and picks the fastest one; you d
 
 ## Build & Run
 
-Requires Linux. Zig and Bun are installed automatically via `bootstrap.sh` + mise.
+Requires Linux and [mise](https://mise.jdx.dev/getting-started.html). `bootstrap.sh` installs Zig and Bun through mise.
 
 ```bash
 git clone <repo> && cd zerocast

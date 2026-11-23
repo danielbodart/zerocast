@@ -8,7 +8,7 @@ Zerocast is a highly opinionated screen sharing tool for developers. A single na
 
 ## Build & Run
 
-Requires Linux with an NVIDIA GPU. Zig and Bun are installed automatically via `bootstrap.sh` + mise.
+Requires Linux with an NVIDIA GPU and mise on PATH. `bootstrap.sh` installs Zig and Bun through mise.
 
 The build is orchestrated by **mise** (see `.mise.toml`). mise is the engine —
 it handles dependency ordering, parallelism, and skip-if-fresh caching. `run.ts`

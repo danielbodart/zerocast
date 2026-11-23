@@ -12,10 +12,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - uses: actions/cache@v6
-        with:
-          path: tools
-          key: mise-tools-${{ hashFiles('.mise.toml') }}
+      - uses: jdx/mise-action@v5
       - name: Native lib cache keys
         id: libs
         run: |
